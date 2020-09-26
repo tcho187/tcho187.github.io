@@ -15,6 +15,15 @@ While the Fed took monetary policy to ensure the money printer keeps printing, i
 
 So if the money isn't going directly to small businesses, then where is the money going? It's going directly into assets such as stocks. This is where the divergence plays out. My hypothesis is the influx of new capital rushing in at record volume is poured into stocks, particularly certain industries such as Technology, despite horrible earnings per share numbers.
 
+To see if my hypothesis is anywhere correct, I use language model called BERT to predict the sentiment of the earning calls transcripts. What is BERT?
+
+BERT or Bidirectional Encoder Representations from Transformer is an open source language model built from Google AI researchers in 2018, and it's popular among the NLP (Natural Language Processing) community for achieving one of the best performances in solving NLP problems. Why it works so well?
+
+Other language models such as word2vec and GloVe build word embedding representations by taking into consideration the words around. They provide semantic knowledge so context like king to man is queen to woman is interpretable. However, the big issue with these models is the context of th embedding is lost because each word has one embedding. Words carry different meaning in different sentences, and so word embedding representations should do so also. ELMo and ULMFit language models remedy the issue of context. Both models apply a recurrent network called LSTM (Long Short-Term Memory) network to "remember" words before and recalculate the embedding, yielding contexual-dependent embeddings.
+
+BERT uses a masking technique which randomly hides words in an input sentence and predicts the hidden word. It's model is bidirectional. ELMo and ULMFit are not truly bidirectional. The use of Transformer which allows BERT to learn contextual relations in any direction should yield more accurate representations. Another benefit to the use of Transformer is the ability for parallel computing. LSTM is sequential because of its recursive nature and that is a big worry for large computing.
+
+
 ### Todo
 
 Duis id ante elit. Aliquam quis tellus id orci eleifend finibus. Donec consequat justo ligula, eget sodales purus hendrerit at.

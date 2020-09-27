@@ -23,6 +23,7 @@ Other language models such as word2vec and GloVe build word embedding representa
 
 BERT uses a masking technique which randomly hides words in an input sentence and predicts the hidden word. It's model is bidirectional. ELMo and ULMFit are not truly bidirectional. The use of Transformer which allows BERT to learn contextual relations in any direction should yield more accurate representations. Another benefit to the use of Transformer is the ability for parallel computing. LSTM is sequential because of its recursive nature and that is a big worry for large computing.
 
+Look at this article for an in-depth post of BERT's architecture.
 
 ### Todo
 

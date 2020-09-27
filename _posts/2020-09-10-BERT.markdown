@@ -1,31 +1,38 @@
 ---
 layout: post
-title: If you have an opportunity to use your voice you should use it all
+title: All about BERT
 tags: [frontpage, jekyll, blog]
 image: '/images/posts/7.jpg'
 ---
 
-Lorem ipsum dolor sit amet, vix ut case porro facilisis, alia possit neglegentur vis te. Has cu eirmod abhorreant, vel civibus efficiantur cu. Eu summo elitr vix, iusto putant maluisset per ut, ne etiam vivendum adipisci vel. Vis omnis tempor accusam ei, justo perpetua liberavisse cu qui. Saperet aliquando adipiscing ius ne, ne facer euripidis est. Pro mundi nostrum suavitate et.
+Homonyms are words that have the same spelling but have different meanings. Let's look at a few examples:
 
-Vix dico eius nominati cu, ex zril commodo fuisset mea. Habeo adhuc audiam ius no. In quis virtute officiis has. Vix ad honestatis accommodare, quis virtute et sit, pertinax expetenda eam id. Duo an fuisset delectus dissentias, justo altera ea per.
+* He will __address__ the public about the recent news.
+* Please give me your __address__.
 
-##### Todo
+* What is the __current__ update on the coronavirus?
+* The river __current__ is strong.
 
-Duis id ante elit. Aliquam quis tellus id orci eleifend finibus. Donec consequat justo ligula, eget sodales purus hendrerit at.
+* __Rock__ is my favorite genre.
+* Let's play __rock__ paper scissors!
 
-1. Ut at interdum nunc. Maecenas commodo turpis quis elementum gravida.
-2. Nunc ac sapien tellus. Quisque risus enim, tempus eget porttitor in, pellentesque vel urna.
-    Donec nibh massa, rutrum a sollicitudin eu,
-lacinia in lorem.
+---
+The English language has a lot of homonyms. We want computers to understand this nuisance. BERT does a really good job capturing the contextual differences between the examples. BERT is short for Bidirectional Encoder Representations from Transformers. It's a language model algorithm for solving Natural Language Processing (NLP) problems. It was developed by researchers at Google AI Language in 2018 and released to the public as an open-source language model in this [paper](https://arxiv.org/pdf/1810.04805.pdf). At the time, BERT achieved state-of-the-art performance in several NLP problems such as Classification, Question Answering, Natural Language Inference, etc.
 
-##### Graphic design
+You already interact with BERT in several of Google's products. For example, if you ever did a Google search, Google runs your search query through BERT to return the best results to you. This [article](https://blog.google/products/search/search-language-understanding-bert/) runs through several examples of how BERT has made significant improvements on the search results as it can better understand the contextual meaning of words. 
 
-> Graphic design is the paradise of individuality, eccentricity, heresy, abnormality, hobbies, and humors. - George Santayana
+__How exactly does BERT yield better search returns?__
 
-Vim te case nihil oblique, has partem interpretaris ne, ad admodum accusamus nam. Usu utinam dissentias referrentur ne, vim accusam voluptua pertinacia no. Est no posse utinam inermis, brute errem mentitum et ius, te prompta albucius quo. In pro simul soleat regione.
+BERT is deeply bidirectional because it utilizes two techniques.
 
-![alt](https://images.unsplash.com/photo-1433785567155-bf5530cab72c?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=1348aea714b9493fa61a09a8c01113e6)
+### Masked Language Model (MLM)
 
-Ne reque offendit singulis mea, ad eos ferri doming nostrud. Duis suscipit usu ut, fuisset pericula ex est, et porro prompta his. Audire definiebas voluptatibus et duo, aperiam ocurreret ad nec. Vel ad nostrud principes. Ad liber congue iracundia sed, eirmod erroribus eam te, has veniam epicurei ea.
+Each input replaces 15% of the words. 80% of the replacement is a [MASK] token, 10% is a random token, and 10% will keep the original word. Then the model optimizes the loss function to predict the masked words. 
 
-Pri probo alterum aliquando an. Duo appetere laboramus intellegat ea, ex suas diam exerci vix. Mel simul debitis id, est nusquam fuisset mentitum in. Te mei iudico iisque.
+The BERT loss function takes into consideration only the prediction of the masked values and ignores the prediction of the non-masked words. As a consequence, the model converges slower than directional models, a characteristic which is offset by its increased context awareness.
+
+Another "downside" (feature of the model that you can argue as good or bad) is the mismatch between pre-training and fine-tuning. Since we don't mask tokens during fine-tuning, we add random tokens and original tokens to the masking to obtain vector representations during fine-tuning.
+
+### Next Sentence Prediction (NSP)
+
+Each input is a pair of sentences. The model optimizes to predict if the second sentence in the pair is the subsequent sentence in the original document. 50% of the time, the pair is taken from the inputs, and the other 50% is a randomly generated pair of sentences. 

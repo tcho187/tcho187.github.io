@@ -25,6 +25,18 @@ BERT uses a masking technique which randomly hides words in an input sentence an
 
 Look at this article for an in-depth post of BERT's architecture.
 
+To analyze sentiment analysis, I add a classification layer on top the Transformer output for the [CLS] token. Fortunately, I don't need to do this because someone else has already fine-tuned BERT for financial statements. FinBERT takes the pretrained language model on generic text such as Wikipedia and further trains the model on a financial corpus called TRC2-financial, a subset of Reuter's TRC2 dataset. Roughly 46,000 news articles from 2008 to 2010 are used to build the language model. 
+
+The classification layer that FinBERT builds from is the Financial PhraseBank dataset. Roughly 5,000 labeled sentences are used to train and validate the classification layer.
+
+You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
+
+Now, I have a model that predicts the sentiment of the earnings call transcripts. 
+
+First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts that I can programatically pull from. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
+
+Seeking Alpha has a login page that prevents me making requests to its earnings call trascript section. So, I decide to use Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's much slower than retrieving responses with requests but I'll run into less problems with Selenium.
+![test](/images/posts/1.jpg)
 ### Todo
 
 Duis id ante elit. Aliquam quis tellus id orci eleifend finibus. Donec consequat justo ligula, eget sodales purus hendrerit at.

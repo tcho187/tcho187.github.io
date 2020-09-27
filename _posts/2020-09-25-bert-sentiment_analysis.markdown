@@ -45,5 +45,5 @@ Seeking Alpha has a login page that prevents me making requests to its earnings 
 
 I collect X tickers from March 2020 to September 2020. I run each earnings call transcript through FinBERT and get the corresponding softmax probabilities for the sentiment label, sentiment label, and the sentiment score, which is the probability of a positive sentiment - probability of a negative sentiment. 
 
-![sentiment-output](/images/posts/finbert-output.jpg)
+![sentiment-output](/images/posts/finbert-output.png)
 

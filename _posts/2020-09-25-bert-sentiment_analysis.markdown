@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: Hype vs. Fundamental - Can sentiment drive stock prices?
@@ -36,14 +35,46 @@ You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
 
 Now, I have a model that predicts the sentiment of the earnings call transcripts. 
 
+**Data Collection**
+
 First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts that I can programatically pull from. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
 
 Seeking Alpha has a login page that prevents me making requests to its earnings call trascript section. So, I decide to use Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's much slower than retrieving responses with requests but I'll run into less problems with Selenium.
 ![test](/images/posts/1.jpg)
 
+I parse out the HTML using BeautifulSoup4. I retrieve the following information:
+* Ticker
+* Company Name
+* Stock Exchange
+* Date of earnings call
+* Time of earnings call
+* Date of next market day
+* Date of previous market day
+* Earnings call transcript
+* Date of Earnings Quarter
+
+I also need information about the ticker prices before and after earnings calls. So, I use [Finnhub API](https://finnhub.io/docs/api). It's free to use (excluding certain parameters), but it limits the number of api calls per minute. I retrieve the follow information:
+* Opening Price of day before earnings call
+* Closing Price of day before earnings call
+* High Price of day before earnings call
+* Low Price of day before earnings call
+* Volume of day before earnings call
+* Opening Price of day during/after earnings call
+* Closing Price of day during/after earnings call
+* High Price of day during/after earnings call
+* Low Price of day during/after earnings call
+* Volume of day during/after earnings call
+* Estimated EPS
+* Actual EPS
+* Date of EPS
+* Industry
+
 ---
 
 I collect X tickers from March 2020 to September 2020. I run each earnings call transcript through FinBERT and get the corresponding softmax probabilities for the sentiment label, sentiment label, and the sentiment score, which is the probability of a positive sentiment - probability of a negative sentiment. 
 
-![sentiment-output](/images/posts/finbert-output.png)
+![sentiment-output](/images/posts/finbert-output.jpg)
+
+---
+
 

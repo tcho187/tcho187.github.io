@@ -3,6 +3,23 @@ layout: post
 title: Hype vs. Fundamental - Can sentiment drive stock prices?
 tags: [frontpage, jekyll, blog]
 image: '/images/posts/8.jpg'
+
+Major topics covered:-
+Pre-requisites and Resources
+Data Collection and Problem Statement
+Exploratory Data Analysis with Pandas and NumPy
+Data Preparation using Sklearn
+Selecting and Training a few Machine Learning Models
+Cross-Validation and Hyperparameter Tuning using Sklearn
+Deploying the Final Trained Model on Heroku via a Flask App
+
+
+Collecting and scraping 🧹 customer reviews data using Selenium and Scrapy
+Training a deep learning sentiment classifier 🤖 on this data using PyTorch
+Building an interactive web app using Dash 📲
+Setting a REST API and a Postgres database 💻
+Dockerizing the app using Docker Compose 🐳
+Deploying to AWS 🚀
 ---
 
 It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.
@@ -35,11 +52,24 @@ You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
 
 Now, I have a model that predicts the sentiment of the earnings call transcripts. 
 
+**Hypothesis**
+
+It's important to setup my hypothesis before I conduct this experiment. It's easy to find patterns in the data that don't mean much. I have to check my biases. Here's my hypothesis:
+
+Null Hypothesis (H₀): X₀ = X₁ 
+Alternate Hypothesis (H₁): X₀ ≠ X₁ 
+X₀ = Stock price difference before and after earnings call for positive earnings call
+X₁ = Stock price difference before and after earnings call for negative earnings call
+
+Significance level: α = 0.05
+
+In layman's terms, I believe that in certain sectors such as technology, the underlying earnings numbers such as EPS do not predict the movements of stock prices. Fundamentals are out. The influx of cheap money allows growth company ticker prices to rise as long as companies provide investors a positive outlook in their earnings call. So, I hope to see a big difference in stock price after earnings call for companies that provide positive sentiment regardless they beat estimated numbers or not.
+
 **Data Collection**
 
-First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts that I can programatically pull from. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
+First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts that I can programmatically pull from. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
 
-Seeking Alpha has a login page that prevents me making requests to its earnings call trascript section. So, I decide to use Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's much slower than retrieving responses with requests but I'll run into less problems with Selenium.
+Seeking Alpha has a login page that prevents me making requests to its earnings call transcript section. So, I decide to use Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's much slower than retrieving responses with requests but I'll run into less problems with Selenium.
 ![test](/images/posts/1.jpg)
 
 I parse out the HTML using BeautifulSoup4. I retrieve the following information:
@@ -53,7 +83,7 @@ I parse out the HTML using BeautifulSoup4. I retrieve the following information:
 * Earnings call transcript
 * Date of Earnings Quarter
 
-I also need information about the ticker prices before and after earnings calls. So, I use [Finnhub API](https://finnhub.io/docs/api). It's free to use (excluding certain parameters), but it limits the number of api calls per minute. I retrieve the follow information:
+I also need information about the ticker prices before and after earnings calls. So, I use [Finnhub API](https://finnhub.io/docs/api). It's free to use for most of the methods. The only downside is a limit on the number of api calls. I retrieve the follow information:
 * Opening Price of day before earnings call
 * Closing Price of day before earnings call
 * High Price of day before earnings call
@@ -71,9 +101,19 @@ I also need information about the ticker prices before and after earnings calls.
 
 ---
 
+**Prediction**
+
+`python3 predict.py --text_path earnings_call.txt --output_dir output/ --model_path models/classifier_model/finbert-sentiment`
+
 I collect X tickers from March 2020 to September 2020. I run each earnings call transcript through FinBERT and get the corresponding softmax probabilities for the sentiment label, sentiment label, and the sentiment score, which is the probability of a positive sentiment - probability of a negative sentiment. 
 
 ![sentiment-output](/images/posts/finbert-output.jpg)
+
+**Analysis**
+
+**Hypothesis Testing**
+
+**Improvements**
 
 ---
 

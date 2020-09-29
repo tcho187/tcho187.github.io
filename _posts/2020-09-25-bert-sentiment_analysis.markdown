@@ -3,6 +3,7 @@ layout: post
 title: Hype vs. Fundamental - Can sentiment drive stock prices?
 tags: [frontpage, jekyll, blog]
 image: '/images/posts/8.jpg'
+---
 
 Major topics covered:-
 Pre-requisites and Resources
@@ -20,6 +21,11 @@ Building an interactive web app using Dash 📲
 Setting a REST API and a Postgres database 💻
 Dockerizing the app using Docker Compose 🐳
 Deploying to AWS 🚀
+
+https://github.com/pandas-profiling/pandas-profiling
+https://www.ahmedbesbes.com/blog/end-to-end-machine-learning
+https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-testing-part-i-4de9abebbc8a
+https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
 ---
 
 It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.

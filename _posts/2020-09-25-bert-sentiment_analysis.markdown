@@ -117,6 +117,14 @@ I collect X tickers from March 2020 to September 2020. I run each earnings call 
 
 **Analysis**
 
+![pprice_diff__sentiment](/images/posts/price_diff__sentiment.png)
+
+Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green show a positive earnings call sentiment whereas those with red show a negative earnings call sentiment.
+
+![price_diff_eps_beat](/images/posts/price_diff_eps_beat.png)
+
+Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green beat earnings per share estimates whereas those with red miss the estimates.
+
 **Hypothesis Testing**
 
 **Improvements**

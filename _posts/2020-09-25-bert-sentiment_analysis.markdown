@@ -125,7 +125,38 @@ Let's look at the top X percentile of tickers that have the biggest price differ
 
 Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green beat earnings per share estimates whereas those with red miss the estimates.
 
+
+Let's look at the data!
+
+Here's a violin plot of the price difference. 
+
+Here's several more violin plots of top 10 most seen sectors.
+
+Let's look at some time series data!
+
+Here's a time series of the eps difference.
+
+Here's a time series of number of earnings estimations
+
+Here's a time series of the ticker price difference
+
+Let's look at the mekko plot to see the beat or miss counts across the top sectors. 
+
+Let's look at the mekko plot to see the sentiment of earnings call across the top sectors.
+
+Let's look at the mekko plot to see the stock price difference across the top sectors.
+
+Let's look ath the time series of number of earnings calls.
+
+Let's see the breakdown of what the model predicts.
+
+
+
 **Hypothesis Testing**
+
+Let's see if there's a statistically significant difference in the price actions between tickers with positive earnings call sentiment and negative earnings call sentiment. 
+
+I perform a one way anova between sentiment and price difference.
 
 **Improvements**
 

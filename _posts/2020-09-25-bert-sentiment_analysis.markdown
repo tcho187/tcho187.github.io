@@ -28,15 +28,29 @@ https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-test
 https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
 ---
 
-It's March of 2020. SPY drops 100 points in 1 month. There's 3 circuit breakers in the market. Covid 19 looks to be the catalyst for the next economic recession. The Federal Reserve injects $3 trillion to ensure that doesn't happen.
+March was **bad**. SPY dropped 100 points. There was 3 circuit breakers. Suddenly, people were in lockdown. It seemed like Covid 19 was the catalyst for the next economic recession.
 
 ![this-is-fine](/images/posts/this-is-fine.jpg)
 
-It's September of 2020. SPY is back to 337 points. Tesla is up 428% YTD. 200,000 Americans have died of covid 19. 22 million jobs have been lost.
+That was 7 months ago. How are we doing now?
+
+If I told you how much Tech stocks have risen since March, I can probably convince you that America is doing great. SPY is back up to 337 points. Tesla is up 428% YTD. Zoom is up 609% YTD.
+
+If I told you about the unemployment numbers and the dozens of restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok. 22 million jobs have been lost. 200,000 Americans have died of covid 19. Half of restaurants in NYC may close down permanently.
+
 
 !['main-street-wall-street](/images/posts/main-street-wall-street.jpg){#fig:description}
 
-If I told you how much Tech stocks have risen since March, I can probably convince you that America is doing great. If I told you about the unemployment numbers and restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok.
+It's a tale of two stories. So I began to question. How is this possible? How can Wall Street be doing so well when Main Street is barely surviving. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. But that's an erroneous assumptions to make. Why?
+
+**Maybe the answer lies in the Federal Reserve.**
+
+In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to fiscal austerity such as you and I. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did it's job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. That means giant corporations can take out this new liquidity in the form of loans and use it to increase asset prices such as stocks.
+
+**Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.**
+
+
+
 
 It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.
 

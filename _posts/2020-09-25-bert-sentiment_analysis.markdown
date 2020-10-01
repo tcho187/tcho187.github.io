@@ -28,29 +28,56 @@ https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-test
 https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
 ---
 
-March was **bad**. SPY dropped 100 points. There was 3 circuit breakers. Suddenly, people were in lockdown. It seemed like Covid 19 was the catalyst for the next economic recession.
+March was **bad**. SPY dropped 100 points. Market melted down with 3 circuit breakers. Suddenly, people were in lockdown. It seemed like Covid 19 was the catalyst for the next economic recession.
 
 ![this-is-fine](/images/posts/this-is-fine.jpg)
 
-That was 7 months ago. How are we doing now?
+That was 7 months ago. So, how are we doing now?
 
-If I told you how much Tech stocks have risen since March, I can probably convince you that America is doing great. SPY is back up to 337 points. Tesla is up 428% YTD. Zoom is up 609% YTD.
+If I told you how much tech stocks have risen since March, I can probably convince you that America is doing great. SPY is back up to 337 points. Tesla is up 428% YTD. Zoom is up 609% YTD. Apple split 4-for-1.
 
-If I told you about the unemployment numbers and the dozens of restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok. 22 million jobs have been lost. 200,000 Americans have died of covid 19. Half of restaurants in NYC may close down permanently.
+If I told you about the unemployment numbers and the dozens of restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok. 22 million jobs have been lost. 200,000 Americans have died of covid 19. Half of restaurants in NYC may close down permanently. People desperately need the next stimulus check.
 
 
-!['main-street-wall-street](/images/posts/main-street-wall-street.jpg){#fig:description}
+!['main-street-wall-street](/images/posts/main-street-wall-street.jpg){#fig:description David Fitzsimmons | The Arizona Star}
 
-It's a tale of two stories. So I began to question. How is this possible? How can Wall Street be doing so well when Main Street is barely surviving. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. But that's an erroneous assumptions to make. Why?
+It's a tale of two stories. So I begin to question. How is this happening? How can Wall Street be doing so well when Main Street is not ok. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. The current economic landscape is just awful. But that's an erroneous assumption to make. Why?
 
 **Maybe the answer lies in the Federal Reserve.**
 
-In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to fiscal austerity such as you and I. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did it's job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. That means giant corporations can take out this new liquidity in the form of loans and use it to increase asset prices such as stocks.
+In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to the same fiscal austerity that you and I are. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did its job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. So, that means giant corporations use this new liquidity in the form of loans to increase asset prices such as stocks.
 
 **Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.**
 
 
+One measure of what's driving stock prices is the earnings call. The market knows fundamentals are bad across the board. If the company c-suite can convince investors that the future looks bright, well then I think stock prices go up regardless of what the fundamental metrics like Earnings Per Share (EPS) say otherwise.
 
+So, to see if my hypothesis is right, I collect a bunch of earnings call transcripts, run sentiment analysis, and compare it to the stock prices before and after the earnings call.
+**Hypothesis**
+
+It's important to setup my hypothesis before I conduct this experiment. It's easy to find patterns in the data that don't mean much. Confirmation bias is **scary**. 
+
+>Null Hypothesis (H₀): X₀ = X₁
+
+>Alternate Hypothesis (H₁): X₀ ≠ X₁
+
+>X₀ = Stock price difference before and after earnings call for positive earnings call
+>X₁ = Stock price difference before and after earnings call for negative earnings call
+
+> Significance level: α = 0.05
+
+__Layman's translation:__ 
+I conduct some statistical tests. If the test has significance, then it supports my hypothesis. Stock prices are different when the earnings calls are positive.
+
+
+
+**Data Collection**
+
+__Collect earnings call transcripts__
+First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
+
+Seeking Alpha has a login page that prevents me from making requests to its earnings call transcript section. So, I decide to use another library called Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's slower than retrieving responses with requests but I'll run into less problems with Selenium. I'm not worried about performance here.
+![test](/images/posts/1.jpg)
 
 It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.
 
@@ -82,18 +109,16 @@ You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
 
 Now, I have a model that predicts the sentiment of the earnings call transcripts. 
 
+
+I believe that in certain sectors such as technology, the underlying earnings numbers such as EPS do not predict the movements of stock prices. Fundamentals are out. The influx of cheap money allows growth company ticker prices to rise as long as companies provide investors a positive outlook in their earnings call. So, I hope to see a big difference in stock price after earnings call for companies that provide positive sentiment regardless they beat estimated numbers or not.
+
+
 **Hypothesis**
 
-It's important to setup my hypothesis before I conduct this experiment. It's easy to find patterns in the data that don't mean much. I have to check my biases. Here's my hypothesis:
 
-Null Hypothesis (H₀): X₀ = X₁ 
-Alternate Hypothesis (H₁): X₀ ≠ X₁ 
-X₀ = Stock price difference before and after earnings call for positive earnings call
-X₁ = Stock price difference before and after earnings call for negative earnings call
 
-Significance level: α = 0.05
 
-In layman's terms, I believe that in certain sectors such as technology, the underlying earnings numbers such as EPS do not predict the movements of stock prices. Fundamentals are out. The influx of cheap money allows growth company ticker prices to rise as long as companies provide investors a positive outlook in their earnings call. So, I hope to see a big difference in stock price after earnings call for companies that provide positive sentiment regardless they beat estimated numbers or not.
+
 
 **Data Collection**
 

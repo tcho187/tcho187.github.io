@@ -43,11 +43,11 @@ If I told you about the unemployment numbers and the dozens of restaurants that 
 
 It's a tale of two stories. So I begin to question. How is this happening? How can Wall Street be doing so well when Main Street is not ok. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. The current economic landscape is just awful. But that's an erroneous assumption to make. Why?
 
-**Maybe the answer lies in the Federal Reserve.**
+<div align="center">**Maybe the answer lies in the Federal Reserve.**</div>
 
 In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to the same fiscal austerity that you and I are. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did its job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. So, that means giant corporations use this new liquidity in the form of loans to increase asset prices such as stocks.
 
-**Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.**
+<div align="center">**Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.**</div>
 
 
 One measure of what's driving stock prices is the earnings call. The market knows fundamentals are bad across the board. If the company c-suite can convince investors that the future looks bright, well then I think stock prices go up regardless of what the fundamental metrics like Earnings Per Share (EPS) say otherwise.
@@ -71,13 +71,61 @@ I conduct some statistical tests. If the test has significance, then it supports
 
 
 
-**Data Collection**
+## Data Collection
 
-__Collect earnings call transcripts__
+__Earnings call transcripts__
 First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
 
 Seeking Alpha has a login page that prevents me from making requests to its earnings call transcript section. So, I decide to use another library called Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's slower than retrieving responses with requests but I'll run into less problems with Selenium. I'm not worried about performance here.
 ![test](/images/posts/1.jpg)
+
+I parse out the HTML using BeautifulSoup4. I retrieve the following information:
+* Ticker
+* Company Name
+* Stock Exchange
+* Date of earnings call
+* Time of earnings call
+* Date of next market day
+* Date of previous market day
+* Earnings call transcript
+* Date of Earnings Quarter
+
+__Finnhub API__
+
+I also need information about the ticker prices before and after earnings calls. So, I use [Finnhub API](https://finnhub.io/docs/api). It's free to use for most of the methods. The only downside is a limit on the number of api calls. I retrieve the follow information:
+* Opening Price of day before earnings call
+* Closing Price of day before earnings call
+* High Price of day before earnings call
+* Low Price of day before earnings call
+* Volume of day before earnings call
+* Opening Price of day during/after earnings call
+* Closing Price of day during/after earnings call
+* High Price of day during/after earnings call
+* Low Price of day during/after earnings call
+* Volume of day during/after earnings call
+* Estimated EPS
+* Actual EPS
+* Date of EPS
+* Industry
+
+## Model
+
+To analyze sentiment analysis, I add a classification layer on top the Transformer output for the [CLS] token. Fortunately, I don't need to do this because someone else has already fine-tuned BERT for financial statements. FinBERT takes the pretrained language model on generic text such as Wikipedia and further trains the model on a financial corpus called TRC2-financial, a subset of Reuter's TRC2 dataset. Roughly 46,000 news articles from 2008 to 2010 are used to build the language model. 
+
+The classification layer that FinBERT builds from is the Financial PhraseBank dataset. Roughly 5,000 labeled sentences are used to train and validate the classification layer.
+
+You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
+
+[reference](https://medium.com/prosus-ai-tech-blog/finbert-financial-sentiment-analysis-with-bert-b277a3607101)
+
+
+## Prediction
+
+`python3 predict.py --text_path earnings_call.txt --output_dir output/ --model_path models/classifier_model/finbert-sentiment`
+
+I collect X tickers from March 2020 to September 2020. I run each earnings call transcript through FinBERT and get the corresponding softmax probabilities for the sentiment label, sentiment label, and the sentiment score, which is the probability of a positive sentiment - probability of a negative sentiment. 
+
+![sentiment-output](/images/posts/finbert-output.jpg)
 
 It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.
 
@@ -99,13 +147,6 @@ BERT uses a masking technique which randomly hides words in an input sentence an
 
 Look at this article for an in-depth post of BERT's architecture.
 
-To analyze sentiment analysis, I add a classification layer on top the Transformer output for the [CLS] token. Fortunately, I don't need to do this because someone else has already fine-tuned BERT for financial statements. FinBERT takes the pretrained language model on generic text such as Wikipedia and further trains the model on a financial corpus called TRC2-financial, a subset of Reuter's TRC2 dataset. Roughly 46,000 news articles from 2008 to 2010 are used to build the language model. 
-
-The classification layer that FinBERT builds from is the Financial PhraseBank dataset. Roughly 5,000 labeled sentences are used to train and validate the classification layer.
-
-You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
-
-[reference](https://medium.com/prosus-ai-tech-blog/finbert-financial-sentiment-analysis-with-bert-b277a3607101)
 
 Now, I have a model that predicts the sentiment of the earnings call transcripts. 
 
@@ -113,56 +154,6 @@ Now, I have a model that predicts the sentiment of the earnings call transcripts
 I believe that in certain sectors such as technology, the underlying earnings numbers such as EPS do not predict the movements of stock prices. Fundamentals are out. The influx of cheap money allows growth company ticker prices to rise as long as companies provide investors a positive outlook in their earnings call. So, I hope to see a big difference in stock price after earnings call for companies that provide positive sentiment regardless they beat estimated numbers or not.
 
 
-**Hypothesis**
-
-
-
-
-
-
-**Data Collection**
-
-First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts that I can programmatically pull from. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
-
-Seeking Alpha has a login page that prevents me making requests to its earnings call transcript section. So, I decide to use Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's much slower than retrieving responses with requests but I'll run into less problems with Selenium.
-![test](/images/posts/1.jpg)
-
-I parse out the HTML using BeautifulSoup4. I retrieve the following information:
-* Ticker
-* Company Name
-* Stock Exchange
-* Date of earnings call
-* Time of earnings call
-* Date of next market day
-* Date of previous market day
-* Earnings call transcript
-* Date of Earnings Quarter
-
-I also need information about the ticker prices before and after earnings calls. So, I use [Finnhub API](https://finnhub.io/docs/api). It's free to use for most of the methods. The only downside is a limit on the number of api calls. I retrieve the follow information:
-* Opening Price of day before earnings call
-* Closing Price of day before earnings call
-* High Price of day before earnings call
-* Low Price of day before earnings call
-* Volume of day before earnings call
-* Opening Price of day during/after earnings call
-* Closing Price of day during/after earnings call
-* High Price of day during/after earnings call
-* Low Price of day during/after earnings call
-* Volume of day during/after earnings call
-* Estimated EPS
-* Actual EPS
-* Date of EPS
-* Industry
-
----
-
-**Prediction**
-
-`python3 predict.py --text_path earnings_call.txt --output_dir output/ --model_path models/classifier_model/finbert-sentiment`
-
-I collect X tickers from March 2020 to September 2020. I run each earnings call transcript through FinBERT and get the corresponding softmax probabilities for the sentiment label, sentiment label, and the sentiment score, which is the probability of a positive sentiment - probability of a negative sentiment. 
-
-![sentiment-output](/images/posts/finbert-output.jpg)
 
 **Analysis**
 

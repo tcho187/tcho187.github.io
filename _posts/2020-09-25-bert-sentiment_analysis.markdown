@@ -28,6 +28,16 @@ https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-test
 https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
 ---
 
+It's March of 2020. SPY drops 100 points in 1 month. There's 3 circuit breakers in the market. Covid 19 looks to be the catalyst for the next economic recession. The Federal Reserve injects $3 trillion to ensure that doesn't happen.
+
+![this-is-fine](/images/posts/this-is-fine.jpg)
+
+It's September of 2020. SPY is back to 337 points. Tesla is up 428% YTD. 200,000 Americans have died of covid 19. 22 million jobs have been lost.
+
+!['main-street-wall-street](/images/posts/main-street-wall-street.jpg){#fig:description}
+
+If I told you how much Tech stocks have risen since March, I can probably convince you that America is doing great. If I told you about the unemployment numbers and restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok.
+
 It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.
 
 Main street tells a different story. The economy lost an estimate of 22 million jobs in March and April due to the coronavirus shutdown according to the Labor Department's survey of business establishments. With retail shops and restaurants closing permanently and the GDP predicted to shrink, regular people living from paycheck to paycheck are finding it difficult to pay for necessities. 
@@ -156,9 +166,30 @@ Let's see the breakdown of what the model predicts.
 
 Let's see if there's a statistically significant difference in the price actions between tickers with positive earnings call sentiment and negative earnings call sentiment. 
 
-I perform a one way anova between sentiment and price difference.
+I perform a t test. T test is a parametric test used to test for a significant difference in the means between 2 groups. 
+
+Parametric test assumptions
+
+* population distrubtions are normal
+* samples have equal variances
+* the two samples are independent
+
+
+We expect price change to be fairly normal distributed.
+
+Two samples are indepedent because each record is a ticker price change. There's no way for a ticker to appear in both.
+
+Let's test to see if the population distribution is normal using Shapiro-Wilk test. Let's visualize it on a quantile plot. 
+
+Lastly, let's check for homoscedasticity.
+
+
+Let's see if there's correlation between a few categorical variables using Chi squared test of indepedence
 
 **Improvements**
+
+1. Dive into model evaluation. I don't have labels for the earnings call transcripts I parsed. So, I don't know how well my model predicts the sentiment. 
+2. Compare training set token distribution and the earnings call token distribution. I don't know what the training set looks like. It's not public. I want to see how much overlap there is between the training set and the earnings call. 
 
 ---
 

@@ -25,14 +25,18 @@ It's a tale of two stories. So I begin to question. How is this happening? How c
 
 <div align="center"><strong>Maybe the answer lies in the Federal Reserve.</strong></div>
 
+
 In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to the same fiscal austerity that you and I are. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did its job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. So, that means giant corporations use this new liquidity in the form of loans to increase asset prices such as stocks.
 
 <div align="center"><strong>Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.</strong></div>
 
 
+
 One measure of what's driving stock prices is the earnings call. The market knows fundamentals are bad across the board. If the company c-suite can convince investors that the future looks bright, well then I think stock prices go up regardless of what the fundamental metrics like Earnings Per Share (EPS) say otherwise.
 
 So, to see if my hypothesis is right, I collect a bunch of earnings call transcripts, run sentiment analysis, and compare it to the stock prices before and after the earnings call.
+
+
 **Hypothesis**
 
 It's important to setup my hypothesis before I conduct this experiment. It's easy to find patterns in the data that don't mean much. Confirmation bias is **scary**. 
@@ -89,6 +93,7 @@ I also need information about the ticker prices before and after earnings calls.
 * Date of EPS
 * Industry
 
+
 ## Model
 
 To analyze sentiment analysis, I add a classification layer on top the Transformer output for the [CLS] token. Fortunately, I don't need to do this because someone else has already fine-tuned BERT for financial statements. FinBERT takes the pretrained language model on generic text such as Wikipedia and further trains the model on a financial corpus called TRC2-financial, a subset of Reuter's TRC2 dataset. Roughly 46,000 news articles from 2008 to 2010 are used to build the language model. 
@@ -98,6 +103,7 @@ The classification layer that FinBERT builds from is the Financial PhraseBank da
 You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
 
 [reference](https://medium.com/prosus-ai-tech-blog/finbert-financial-sentiment-analysis-with-bert-b277a3607101)
+
 
 
 ## Prediction

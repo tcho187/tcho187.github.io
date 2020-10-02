@@ -5,28 +5,7 @@ tags: [frontpage, jekyll, blog]
 image: '/images/posts/8.jpg'
 ---
 
-Major topics covered:-
-Pre-requisites and Resources
-Data Collection and Problem Statement
-Exploratory Data Analysis with Pandas and NumPy
-Data Preparation using Sklearn
-Selecting and Training a few Machine Learning Models
-Cross-Validation and Hyperparameter Tuning using Sklearn
-Deploying the Final Trained Model on Heroku via a Flask App
-
-
-Collecting and scraping 🧹 customer reviews data using Selenium and Scrapy
-Training a deep learning sentiment classifier 🤖 on this data using PyTorch
-Building an interactive web app using Dash 📲
-Setting a REST API and a Postgres database 💻
-Dockerizing the app using Docker Compose 🐳
-Deploying to AWS 🚀
-
-https://github.com/pandas-profiling/pandas-profiling
-https://www.ahmedbesbes.com/blog/end-to-end-machine-learning
-https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-testing-part-i-4de9abebbc8a
-https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
----
+# Introduction
 
 March was **bad**. SPY dropped 100 points. Market melted down with 3 circuit breakers. Suddenly, people were in lockdown. It seemed like Covid 19 was the catalyst for the next economic recession.
 
@@ -39,15 +18,16 @@ If I told you how much tech stocks have risen since March, I can probably convin
 If I told you about the unemployment numbers and the dozens of restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok. 22 million jobs have been lost. 200,000 Americans have died of covid 19. Half of restaurants in NYC may close down permanently. People desperately need the next stimulus check.
 
 
-!['main-street-wall-street](/images/posts/main-street-wall-street.jpg){#fig:description David Fitzsimmons | The Arizona Star}
+!['main-street-wall-street](/images/posts/main-street-wall-street.jpg)
+{David Fitzsimmons | The Arizona Star}
 
 It's a tale of two stories. So I begin to question. How is this happening? How can Wall Street be doing so well when Main Street is not ok. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. The current economic landscape is just awful. But that's an erroneous assumption to make. Why?
 
-<div align="center">**Maybe the answer lies in the Federal Reserve.**</div>
+<div align="center"><strong>Maybe the answer lies in the Federal Reserve.<strong></div>
 
 In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to the same fiscal austerity that you and I are. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did its job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. So, that means giant corporations use this new liquidity in the form of loans to increase asset prices such as stocks.
 
-<div align="center">**Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.**</div>
+<div align="center"><strong>Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.<strong></div>
 
 
 One measure of what's driving stock prices is the earnings call. The market knows fundamentals are bad across the board. If the company c-suite can convince investors that the future looks bright, well then I think stock prices go up regardless of what the fundamental metrics like Earnings Per Share (EPS) say otherwise.
@@ -67,13 +47,14 @@ It's important to setup my hypothesis before I conduct this experiment. It's eas
 > Significance level: α = 0.05
 
 __Layman's translation:__ 
-I conduct some statistical tests. If the test has significance, then it supports my hypothesis. Stock prices are different when the earnings calls are positive.
+I conduct statistical tests. If the tests have significance, then they supports my hypothesis- the alternate hypothesis. Stock prices are different when the earnings calls are positive vs when the earnings calls are negative.
 
 
 
 ## Data Collection
 
 __Earnings call transcripts__
+
 First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
 
 Seeking Alpha has a login page that prevents me from making requests to its earnings call transcript section. So, I decide to use another library called Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's slower than retrieving responses with requests but I'll run into less problems with Selenium. I'm not worried about performance here.
@@ -220,6 +201,12 @@ Let's see if there's correlation between a few categorical variables using Chi s
 
 1. Dive into model evaluation. I don't have labels for the earnings call transcripts I parsed. So, I don't know how well my model predicts the sentiment. 
 2. Compare training set token distribution and the earnings call token distribution. I don't know what the training set looks like. It's not public. I want to see how much overlap there is between the training set and the earnings call. 
+
+
+https://github.com/pandas-profiling/pandas-profiling
+https://www.ahmedbesbes.com/blog/end-to-end-machine-learning
+https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-testing-part-i-4de9abebbc8a
+https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
 
 ---
 

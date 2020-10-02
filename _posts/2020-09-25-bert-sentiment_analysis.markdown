@@ -23,11 +23,11 @@ If I told you about the unemployment numbers and the dozens of restaurants that 
 
 It's a tale of two stories. So I begin to question. How is this happening? How can Wall Street be doing so well when Main Street is not ok. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. The current economic landscape is just awful. But that's an erroneous assumption to make. Why?
 
-<div align="center"><strong>Maybe the answer lies in the Federal Reserve.<strong></div>
+<div align="center"><strong>Maybe the answer lies in the Federal Reserve.</strong></div>
 
 In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to the same fiscal austerity that you and I are. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did its job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. So, that means giant corporations use this new liquidity in the form of loans to increase asset prices such as stocks.
 
-<div align="center"><strong>Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.<strong></div>
+<div align="center"><strong>Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.</strong></div>
 
 
 One measure of what's driving stock prices is the earnings call. The market knows fundamentals are bad across the board. If the company c-suite can convince investors that the future looks bright, well then I think stock prices go up regardless of what the fundamental metrics like Earnings Per Share (EPS) say otherwise.

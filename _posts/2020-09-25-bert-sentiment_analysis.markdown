@@ -144,6 +144,17 @@ I believe that in certain sectors such as technology, the underlying earnings nu
 
 **Analysis**
 
+I use [pandas_profiling](https://github.com/pandas-profiling/pandas-profiling) to examine my dataset. There's XXX observations and XXX variables.
+
+
+The report shows that several variables are highly correlated, but I wouldn't worry because I expect earnings per share estimate to follow earnings per share actual. Since I'm not building a prediction model or causal model, correlation isn't a problem.
+
+Let's breakdown some variables. 
+
+1. XXX stocks come from NASDAQ and XXX come from NYSE.
+2. XXX elect to announce its earnings after trading day and XXX elect to announce before trading day
+3. FinBERT predicts XXX 
+
 ![pprice_diff__sentiment](/images/posts/price_diff__sentiment.png)
 
 Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green show a positive earnings call sentiment whereas those with red show a negative earnings call sentiment.

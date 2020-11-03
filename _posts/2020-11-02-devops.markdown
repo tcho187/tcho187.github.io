@@ -120,6 +120,38 @@ Create an application with load balancer.
 Assign port 443 to port [exposed port of ec2] with signed certificate.
 
 
+## Jupter notebook on ec2
+
+ssh into ec2
+`ssh -i /path-to-.pem ip4-address`
+
+download anaconda installer
+`wget https://repo.anaconda.com/archive/Anaconda3-2018.12-Linux-x86_64.sh`
+
+Run .sh file
+`bash Anaconda3-2018.12-Linux-x86_64.sh`
+
+Set default path to anaconda python
+`export PATH="/home/ubuntu/anaconda3/bin:$PATH"` in `.zshrc` or `.bashrc`
+
+refresh 
+`source .zshrc`
+
+Set config
+`Host ec2
+    Hostname your-ec2’s-public-ip-address here
+    User ubuntu
+    IdentityFile ~/tutorialexample.pem`
+
+Run jupyter inside ec2
+`jupyter notebook --no-browser`
+
+Connect local port to ec2 port
+`ssh -NfL 9999:localhost:8888 ec2`
+
+
+
+
 
 
 

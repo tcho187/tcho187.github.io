@@ -1,0 +1,126 @@
+---
+layout: post
+title: Data science dev-ops 
+tags: [frontpage, jekyll, blog]
+image: '/images/posts/pexels-marius-mann.jpg'
+---
+
+# Introduction
+
+This is a single location for all DevOps related information. 
+
+## Docker
+
+Docker containers are very important for developing applications and hosting on a platform. 
+
+Download Docker Desktop https://www.docker.com/products/docker-desktop
+
+Dockerfile
+
+	Choose base image. `slim python` is fast to compose. `stretch` refers to Debian machine.
+	`FROM python:3.7-slim-stretch` 
+
+	Copy all the files on same level of Dockerfile to `/flask_app` path in Docker container.
+	`COPY . /flask_app`
+
+	Set working directory of Docker container.
+	`WORKDIR /flask_app`
+
+	Run pip command. Upgrade to latest pip.
+	`RUN pip install --upgrade pip`
+
+
+	Run pip command. `pip install` python packages in .txt.
+	`RUN pip install -r requirements.txt`
+
+	Expose port number of Docker Container
+	`EXPOSE 8050`
+
+	Run bash command. `python app.py` (in flask_app path of local machine)
+	`CMD ["python", "flask_app/app.py"]`
+
+
+Build Dockerfile
+`docker build .`
+
+Run Docker Image. Connect local machine port 8888 to Docker container port 8050.
+`docker run -p 8888:8050 [image]`
+
+Running multi-container Docker applications. Use `docker-compose up --build`
+
+web is Dockerfile for the application. `build .` - Dockerfile at the root level. `ports 5000:5000` - expose port 5000 to Docker container 5000. Volumes preserves data. 
+`version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+      - logvolume01:/var/log
+    links:
+      - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}`
+
+
+### Random code
+If you don’t want to add an editor just to make a few small changes (e.g., change the Tomcat configuration), you can just use:
+`docker cp <container>:/path/to/file.ext .`
+which copies it to your local machine (to your current directory). Then edit the file locally using your favorite editor, and then do a
+`docker cp file.ext <container>:/path/to/file.ext`
+to replace the old file.
+
+`container-transform -I compose -o ecs docker-compose.yml`
+
+Erase hidden files associated in mac os systems
+`zip -d nameofyourzipfile.zip __MACOSX/\*`
+
+
+load Docker Image from file.
+`docker load -I aws-okta_VERSION.tar.gz`
+
+Check running containers
+`docker ps`
+
+Check docker logs
+`docker logs [container id]`
+
+## AWS Elastic Beanstalk
+
+AWS Elastic Beanstalk is a PaaS that hosts web applications.
+
+### AWS command line interface CLI
+
+Initialize beanstalk
+`eb init --profile [profile-name]`
+
+ssh into application. Make sure to allow port 22 in the inbound rules of the security group associated with the application.
+`eb ssh [application-name]`
+
+Sign in as root
+`sudo su -`
+
+ssh into docker container bash
+`docker exec -it [container-id] /bin/bash`
+
+Check ports
+`nc -vz [url or public ip] 80`
+`nc -vz [url or public ip] 443`
+
+Copy file into ec2 from local machine
+`scp -I [key] /localpath/file ec2-user@ip-address:~/.`
+
+
+### HTTP to HTTTPS
+Create a signed certificate through AWS Certicate Manager.
+Create an application with load balancer.
+Assign port 443 to port [exposed port of ec2] with signed certificate.
+
+
+
+
+
+

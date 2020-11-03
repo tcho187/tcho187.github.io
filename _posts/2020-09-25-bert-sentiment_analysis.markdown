@@ -166,7 +166,7 @@ Let's look at the top X percentile of tickers that have the biggest price differ
 
 Let's look at the data!
 
-Here's a violin plot of the price difference. 
+Here's a violin plot of the price difference.
 
 Here's several more violin plots of top 10 most seen sectors.
 

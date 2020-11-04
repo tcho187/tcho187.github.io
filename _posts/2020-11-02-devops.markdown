@@ -2,7 +2,7 @@
 layout: post
 title: Data science dev-ops 
 tags: [frontpage, jekyll, blog]
-image: '/images/posts/pexels-marius-mann.jpg'
+image: '/images/posts/pexels-oleg-magni.jpg'
 ---
 
 # Introduction

@@ -113,7 +113,7 @@ You can find the article [here](https://arxiv.org/pdf/1908.10063.pdf).
 
 I collect X tickers from March 2020 to September 2020. I run each earnings call transcript through FinBERT and get the corresponding softmax probabilities for the sentiment label, sentiment label, and the sentiment score, which is the probability of a positive sentiment - probability of a negative sentiment. 
 
-![sentiment-output](/images/posts/finbert-output.jpg)
+![sentiment-output](/images/posts/finbert-output.png)
 
 Now, I have a model that predicts the sentiment of the earnings call transcripts. 
 

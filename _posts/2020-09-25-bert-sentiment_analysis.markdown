@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Hype vs. Fundamental - Can sentiment drive stock prices?
-tags: [frontpage, jekyll, blog]
+tags: [bert, jekyll, blog, stocks]
 image: '/images/posts/pexels-marius-mann.jpg'
 ---
 
@@ -15,21 +15,22 @@ That was 7 months ago. So, how are we doing now?
 
 If I told you how much tech stocks have risen since March, I can probably convince you that America is doing great. SPY is back up to 337 points. Tesla is up 428% YTD. Zoom is up 609% YTD. Apple split 4-for-1.
 
-If I told you about the unemployment numbers and the dozens of restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok. 22 million jobs have been lost. 200,000 Americans have died of covid 19. Half of restaurants in NYC may close down permanently. People desperately need the next stimulus check.
+If I told you about the unemployment numbers and the dozens of restaurants that can't pay their next rent, I can definitely convince you that America is **NOT** doing ok. 22 million jobs have been lost. 200,000 Americans have died of covid 19. Half of restaurants in NYC may close down permanently. People desperately need that next stimulus check.
 
 
 !['main-street-wall-street](/images/posts/main-street-wall-street.jpg)
 {David Fitzsimmons | The Arizona Star}
 
-It's a tale of two stories. So I begin to question. How is this happening? How can Wall Street be doing so well when Main Street is not ok. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. The current economic landscape is just awful. But that's an erroneous assumption to make. Why?
+It's a tale of two stories. So I begin to question. How is this happening? How can Wall Street be doing so well when Main Street is not ok. Shouldn't these two move in sync? You can't expect businesses to generate money if people don't have jobs and therefore don't have money to spend. Fundamental traders would agree with me here. 
 
-<div align="center"><strong>Maybe the answer lies in the Federal Reserve.</strong></div>
+> The current economic landscape is just awful. But that's an erroneous assumption to make. Why?
+
+<div align="center"><strong>Maybe the answer lies in the Federal Reserve.</strong></div><br>
 
 
 In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue. Get the ball rolling no matter how expensive it be. The central bank isn't confined to the same fiscal austerity that you and I are. It can simply print more money if necessary. Implications of the Fed's actions isn't what I want to talk about here. The main takeaway is while the Fed did its job to provide liquidity, under its charter, the Fed cannot provide this liquidity directly. This power is rather controlled by Congress, and bipartisan issues have kept Congress **busy**. So, that means giant corporations use this new liquidity in the form of loans to increase asset prices such as stocks.
 
-<div align="center"><strong>Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.</strong></div>
-
+<div align="center"><strong>Fundamentals are just not important now. What I call momentum trading is driving the insane valuations of tech stocks.</strong></div><br>
 
 
 One measure of what's driving stock prices is the earnings call. The market knows fundamentals are bad across the board. If the company c-suite can convince investors that the future looks bright, well then I think stock prices go up regardless of what the fundamental metrics like Earnings Per Share (EPS) say otherwise.
@@ -62,7 +63,7 @@ __Earnings call transcripts__
 First, I need to collect the earnings call transcripts. I couldn't find a free repository of earnings call transcripts. There are sites such as Seeking Alpha and Motley Fool that publish earnings call transcripts. So, I decide to write a python script to scrape their websites. The easiest method is to use a library like requests and retrieve the HTTP response from the url. However, urls with lots of daily traffic often add security layers to prevent sending data from HTTP requests. Sites prevent bots from clogging traffic with infinite url requests and prevent hackers from stealing data.
 
 Seeking Alpha has a login page that prevents me from making requests to its earnings call transcript section. So, I decide to use another library called Selenium to parse the earnings call transcripts on Motley Fool. Selenium renders the browser and allows me to interact with the DOM of the page. It's slower than retrieving responses with requests but I'll run into less problems with Selenium. I'm not worried about performance here.
-![test](/images/posts/1.jpg)
+
 
 I parse out the HTML using BeautifulSoup4. I retrieve the following information:
 * Ticker
@@ -114,27 +115,6 @@ I collect X tickers from March 2020 to September 2020. I run each earnings call 
 
 ![sentiment-output](/images/posts/finbert-output.jpg)
 
-It's been 7 months since we saw one of the most dramatic stock market crashes due to Covid-19. Stock prices plumetted with the S&P 500 falling more than 12% in March of 2020. After weeks of record breaking decline and circuit breakers in the market, Wall Street has made a meteroric recovery. The S&P 500 closed at an all-time high in August. It took only 5 months to rise from the pandemic hysteria selloff.
-
-Main street tells a different story. The economy lost an estimate of 22 million jobs in March and April due to the coronavirus shutdown according to the Labor Department's survey of business establishments. With retail shops and restaurants closing permanently and the GDP predicted to shrink, regular people living from paycheck to paycheck are finding it difficult to pay for necessities. 
-
-How can Wall Street be doing so well at a time when unemployment numbers are at the Great Depression levels? Maybe the answer lies in the Federal Reserve. In response to an economic shutdown that could place a lot of American businesses insolvent, the Fed poured record breaking money into the financial markets. The Fed printed $3 trillion to ensure that liquidity is not an issue during the pandemic. The Fed convinced Wall Street. Implications of the Fed's actions isn't what I want to talk about here. It's more appropriate for another time.
-
-While the Fed took monetary policy to ensure the money printer keeps printing, it cannot directly pass the money onto the people. Congress has the fiscal power to provide stimulus directly to small businesses. However, bipartisan issues have kept Congress busy. 
-
-So if the money isn't going directly to small businesses, then where is the money going? It's going directly into assets such as stocks. This is where the divergence plays out. My hypothesis is the influx of new capital rushing in at record volume is poured into stocks, particularly certain industries such as Technology, despite horrible earnings per share numbers.
-
-To see if my hypothesis is anywhere correct, I use language model called BERT to predict the sentiment of the earning calls transcripts. What is BERT?
-
-BERT or Bidirectional Encoder Representations from Transformer is an open source language model built from Google AI researchers in 2018, and it's popular among the NLP (Natural Language Processing) community for achieving one of the best performances in solving NLP problems. Why it works so well?
-
-Other language models such as word2vec and GloVe build word embedding representations by taking into consideration the words around. They provide semantic knowledge so context like king to man is queen to woman is interpretable. However, the big issue with these models is the context of th embedding is lost because each word has one embedding. Words carry different meaning in different sentences, and so word embedding representations should do so also. ELMo and ULMFit language models remedy the issue of context. Both models apply a recurrent network called LSTM (Long Short-Term Memory) network to "remember" words before and recalculate the embedding, yielding contexual-dependent embeddings.
-
-BERT uses a masking technique which randomly hides words in an input sentence and predicts the hidden word. It's model is bidirectional. ELMo and ULMFit are not truly bidirectional. The use of Transformer which allows BERT to learn contextual relations in any direction should yield more accurate representations. Another benefit to the use of Transformer is the ability for parallel computing. LSTM is sequential because of its recursive nature and that is a big worry for large computing.
-
-Look at this article for an in-depth post of BERT's architecture.
-
-
 Now, I have a model that predicts the sentiment of the earnings call transcripts. 
 
 
@@ -155,7 +135,7 @@ The report shows that several variables are highly correlated.
 
 But I wouldn't worry because the correlations make sense. I expect earnings per share estimate to follow earnings per share actual. I expect closing price to follow opening price.
 
-Since I'm not building a prediction model or causal model, I don't have to worry about the effects of correlation. 
+**Since I'm not building a prediction model or causal model, I don't have to worry about the effects of correlation.**
 
 Let's breakdown some variables. 
 
@@ -169,19 +149,16 @@ Here's a breakdown of the sentiment score. We see that the tails are long an d v
 
 ![pprice_diff_sentiment](/images/posts/price_diff_sentiment.png)
 
-Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green show a positive earnings call sentiment whereas those with red show a negative earnings call sentiment. So, I expect a partition with green bars on the top and red bars on the bottom. That's not the case, however. Majority of the top 10% tickers had positive sentiment but some tickers went down in price after earnings. 
+Those with green show a positive earnings call sentiment whereas those with red show a negative earnings call sentiment. CCI had a positive sentiment but prices dumped. 
 
 ![price_diff_eps_beat](/images/posts/price_diff_eps_beat.png)
 
-Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green beat earnings per share estimates whereas those with red miss the estimates. Again, there's no pattern between earnings per share performance and the stock price movement. CCI beat the estimate and yet stock price plummeted. 
+Those with green beat earnings per share estimates whereas those with red miss the estimates. Again, there's no pattern between earnings per share performance and the stock price movement. CCI beat the estimate and yet stock price plummeted. 
 
-
-
-
-Let's look at the data!
 
 ![violin_plot](/images/posts/violin_plot.png)
 Here's a violin plot of the price difference. Overall the interquartile range is around $2. This doesn't say much. It'd be more effective if we look at the percentage change. One ticker had a massive rise of $49 and one had a drop of $178. I wonder if those are outliers.
+
 
 Here's several more violin plots of top 10 most seen sectors.
 ![violin_plot_tech](/images/posts/violin_plot_tech.png)
@@ -192,43 +169,39 @@ Here's several more violin plots of top 10 most seen sectors.
 ![violin_plot_energy](/images/posts/violin_plot_energy.png)
 ![violin_plot_financial_services](/images/posts/violin_plot_financial_services.png)
 
-Let's look at some time series data!
+
+May shows a bigger range of eps difference, largely due to q2 earnings being a mystery due to covid.
 
 ![eps_time_series](/images/posts/eps_time_series.png)
-Here's a time series of the eps difference.
 
-So, this chart is difficult to analyze because there's an outlier. This is probably an error.
+
+No time pattern in the beat or miss graph.
 
 ![beat_or_miss_time_series](/images/posts/beat_or_miss_time_series.png)
-Here's a time series of the Beat or Miss.
 
-I was hoping to see a clear division before and after the stock price drop. I don't see any immediate patterns.
+
+Again, May shows a volatile month of price swings after earnings call.
 
 ![stock_price_time_series](/images/posts/stock_price_time_series.png)
-Here's a time series of the ticker price difference.
 
+Mekko plots are nice to look at the ratio of categories across several industries. Tech and real estate show a large percentage of the data and Tech had a 2 to 1 ratio of beats to misses. 
 
 ![mekko_beat_or_miss](/images/posts/mekko_beat_or_miss.png)
 
-Let's look at the mekko plot to see the beat or miss counts across the top sectors. 
+It's interesting to see that across all industries, executives had positive sentiment. Who wouldn't during a pandemic?
 
 ![mekko_sentiment](/images/posts/mekko_sentiment.png)
 
+
+While Tech see a 2 to 1 ratio of beats to misses, stock price difference is overall negative.
 Let's look at the mekko plot to see the sentiment of earnings call across the top sectors.
 ![mekko_price_difference](/images/posts/mekko_price_difference.png)
-
-
-Let's look at the mekko plot to see the stock price difference across the top sectors.
-
-Let's look ath the time series of number of earnings calls.
-
-Let's see the breakdown of what the model predicts.
 
 
 
 **Hypothesis Testing**
 
-Let's see if there's a statistically significant difference in the price actions between tickers with positive earnings call sentiment and negative earnings call sentiment. 
+Let's see if there's statistically significant difference in the price actions between tickers with positive earnings call sentiment and negative earnings call sentiment. 
 
 ![t_test](/images/posts/t_test.png)
 
@@ -244,21 +217,34 @@ Parametric test assumptions
 ![neg_sent_dist](/images/posts/neg_sent_dist.png)
 ![pos_sentiment_shap](/images/posts/pos_sentiment_shap.png)
 ![neg_sentiment_shap](/images/posts/neg_sentiment_shap.png)
-We assume price change to be fairly normal distributed. However, visually and statistically, the distribution of price difference between the positive sentiment group and the negative sentiment group is not normal. I apply the Shapiro-Wilk test method. The test is significant and reject the null hypothesis. So, the distributions are not normal.
+We assume price change to be fairly normal distributed. However, visually and statistically, the distribution of price difference between the positive sentiment group and the negative sentiment group is not normal. 
+
+Staistically, I apply the Shapiro-Wilk test method. The test is significant and I reject the null hypothesis. So, the distributions are not normal.
 
 ![leven](/images/posts/leven.png)
+
 I apply the Levene method to check for homogeneity of variance. A p-value of .3 means the test is not significant and the variances are equal. 
 
 ![mannwhitney](/images/posts/mannwhitney.png)
+
 Instead of the independent t-test, let's try the nonparametric Mann-Whitney U test. 
 
 The test has a p-value of .9 so I can't reject the null hypothesis, which says the distributions are equal. 
 
-The takeaway then is sentiment does not have statistical significance in price difference distributions or more correctly, I can't reject the hypothesis that the distributions are the same.
+The takeaway then is sentiment does not have statistical significance in price difference distributions or more correctly, I can't reject the hypothesis,which says that the distributions are the same.
 
 
-
+![chisquare](/images/posts/chisquare.png)
 Let's see if there's correlation between a few categorical variables using Chi squared test of indepedence.
+
+The relationship between beat or miss and sentiment has a chi square of 5.4 and a p-value of .019. I can reject the null hypothesis and say that the two are dependent. So, there is a relationship between sentiment and beat or miss. Most likely, the executives want to relay a particular sentiment when the company beats or misses its earnings per share. 
+
+I can't reject the hypothesis that beat or miss is independent of price difference or that sentiment is independent of price difference. 
+
+
+## Takeaway
+The nonparametric Whitney-Mann U test and Chi Squared test of independence both fail to reject the null hypothesis of any relationship between the stock price movement and the sentiment of the earnings call. My initial hypothesis is incorrect. I can think of other factors that complicate the hypothesis. With the recent surge, I've seen stocks double or triple the March lows and dump after earnings even after showing positive eps because the company didn't blow out the earnings. On the other hand, companies with misses see a rise in stock price because of forward guidance from the executives in the earnings call. Earnings call is one piece of the puzzle of stock price movement.
+
 
 **Improvements**
 
@@ -266,10 +252,6 @@ Let's see if there's correlation between a few categorical variables using Chi s
 2. Compare training set token distribution and the earnings call token distribution. I don't know what the training set looks like. It's not public. I want to see how much overlap there is between the training set and the earnings call. 
 
 
-https://github.com/pandas-profiling/pandas-profiling
-https://www.ahmedbesbes.com/blog/end-to-end-machine-learning
-https://towardsdatascience.com/everything-you-need-to-know-about-hypothesis-testing-part-i-4de9abebbc8a
-https://analyticsindiamag.com/importance-of-hypothesis-testing-in-data-science/
 
 ---
 

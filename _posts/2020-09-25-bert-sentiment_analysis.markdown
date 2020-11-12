@@ -144,39 +144,68 @@ I believe that in certain sectors such as technology, the underlying earnings nu
 
 **Analysis**
 
-I use [pandas_profiling](https://github.com/pandas-profiling/pandas-profiling) to examine my dataset. There's XXX observations and XXX variables.
+I use a package called [pandas_profiling](https://github.com/pandas-profiling/pandas-profiling) to calculate basic information such as histograms, summary statistics, and correlations.
 
+![summary](/images/posts/summary.png)
 
-The report shows that several variables are highly correlated, but I wouldn't worry because I expect earnings per share estimate to follow earnings per share actual. Since I'm not building a prediction model or causal model, correlation isn't a problem.
+There's 2,291 observations and 40 variables.
+
+![correlation](/images/posts/correlation.png)
+The report shows that several variables are highly correlated.
+
+But I wouldn't worry because the correlations make sense. I expect earnings per share estimate to follow earnings per share actual. I expect closing price to follow opening price.
+
+Since I'm not building a prediction model or causal model, I don't have to worry about the effects of correlation. 
 
 Let's breakdown some variables. 
 
-1. XXX stocks come from NASDAQ and XXX come from NYSE.
-2. XXX elect to announce its earnings after trading day and XXX elect to announce before trading day
-3. FinBERT predicts XXX 
+![ticker_time_series](/images/posts/ticker_time_series.png)
+1. We're looking at a timeframe between Feb-25-2020 and July-21-2020.
+2. 1,058 stocks come from NASDAQ and 1,219 come from NYSE.
+3. 997 elect to announce its earnings after trading day and 1,294 elect to announce before trading day.
 
-![pprice_diff__sentiment](/images/posts/price_diff__sentiment.png)
+![sentiment_score](/images/posts/sentiment_score.png)
+Here's a breakdown of the sentiment score. We see that the tails are long an d very few are in the middle. 
 
-Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green show a positive earnings call sentiment whereas those with red show a negative earnings call sentiment.
+![pprice_diff_sentiment](/images/posts/price_diff_sentiment.png)
+
+Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green show a positive earnings call sentiment whereas those with red show a negative earnings call sentiment. So, I expect a partition with green bars on the top and red bars on the bottom. That's not the case, however. Majority of the top 10% tickers had positive sentiment but some tickers went down in price after earnings. 
 
 ![price_diff_eps_beat](/images/posts/price_diff_eps_beat.png)
 
-Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green beat earnings per share estimates whereas those with red miss the estimates.
+Let's look at the top X percentile of tickers that have the biggest price difference before and after earnings call. Those with green beat earnings per share estimates whereas those with red miss the estimates. Again, there's no pattern between earnings per share performance and the stock price movement. CCI beat the estimate and yet stock price plummeted. 
+
+
 
 
 Let's look at the data!
 
-Here's a violin plot of the price difference.
+![violin_plot](/images/posts/violin_plot.png)
+Here's a violin plot of the price difference. Overall the interquartile range is around $2. This doesn't say much. It'd be more effective if we look at the percentage change. One ticker had a massive rise of $49 and one had a drop of $178. I wonder if those are outliers.
 
 Here's several more violin plots of top 10 most seen sectors.
+![violin_plot_tech](/images/posts/violin_plot_tech.png)
+![violin_plot_real_estate](/images/posts/violin_plot_real_estate.png)
+![violin_plot_health_care](/images/posts/violin_plot_health_care.png)
+![violin_plot_biotechnology](/images/posts/violin_plot_biotechnology.png)
+![violin_plot_banking](/images/posts/violin_plot_banking.png)
+![violin_plot_energy](/images/posts/violin_plot_energy.png)
+![violin_plot_financial_services](/images/posts/violin_plot_financial_services.png)
 
 Let's look at some time series data!
 
 Here's a time series of the eps difference.
 
-Here's a time series of number of earnings estimations
+So, this chart is difficult to analyze because there's an outlier. This is probably an error.
 
-Here's a time series of the ticker price difference
+Here's a time series of the Beat or Miss.
+
+I was hoping to see a clear division before and after the stock price drop. I don't see any immediate patterns.
+
+Here's a time series of the ticker price difference.
+
+
+
 
 Let's look at the mekko plot to see the beat or miss counts across the top sectors. 
 

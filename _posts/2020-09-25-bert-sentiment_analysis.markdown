@@ -194,22 +194,29 @@ Here's several more violin plots of top 10 most seen sectors.
 
 Let's look at some time series data!
 
+![eps_time_series](/images/posts/eps_time_series.png)
 Here's a time series of the eps difference.
 
 So, this chart is difficult to analyze because there's an outlier. This is probably an error.
 
+![beat_or_miss_time_series](/images/posts/beat_or_miss_time_series.png)
 Here's a time series of the Beat or Miss.
 
 I was hoping to see a clear division before and after the stock price drop. I don't see any immediate patterns.
 
+![stock_price_time_series](/images/posts/stock_price_time_series.png)
 Here's a time series of the ticker price difference.
 
 
-
+![mekko_beat_or_miss](/images/posts/mekko_beat_or_miss.png)
 
 Let's look at the mekko plot to see the beat or miss counts across the top sectors. 
 
+![mekko_sentiment](/images/posts/mekko_sentiment.png)
+
 Let's look at the mekko plot to see the sentiment of earnings call across the top sectors.
+![mekko_price_difference](/images/posts/mekko_price_difference.png)
+
 
 Let's look at the mekko plot to see the stock price difference across the top sectors.
 
@@ -223,6 +230,8 @@ Let's see the breakdown of what the model predicts.
 
 Let's see if there's a statistically significant difference in the price actions between tickers with positive earnings call sentiment and negative earnings call sentiment. 
 
+![t_test](/images/posts/t_test.png)
+
 I perform a t test. T test is a parametric test used to test for a significant difference in the means between 2 groups. 
 
 Parametric test assumptions
@@ -231,17 +240,25 @@ Parametric test assumptions
 * samples have equal variances
 * the two samples are independent
 
+![pos_sent_dist](/images/posts/pos_sent_dist.png)
+![neg_sent_dist](/images/posts/neg_sent_dist.png)
+![pos_sentiment_shap](/images/posts/pos_sentiment_shap.png)
+![neg_sentiment_shap](/images/posts/neg_sentiment_shap.png)
+We assume price change to be fairly normal distributed. However, visually and statistically, the distribution of price difference between the positive sentiment group and the negative sentiment group is not normal. I apply the Shapiro-Wilk test method. The test is significant and reject the null hypothesis. So, the distributions are not normal.
 
-We expect price change to be fairly normal distributed.
+![leven](/images/posts/leven.png)
+I apply the Levene method to check for homogeneity of variance. A p-value of .3 means the test is not significant and the variances are equal. 
 
-Two samples are indepedent because each record is a ticker price change. There's no way for a ticker to appear in both.
+![mannwhitney](/images/posts/mannwhitney.png)
+Instead of the independent t-test, let's try the nonparametric Mann-Whitney U test. 
 
-Let's test to see if the population distribution is normal using Shapiro-Wilk test. Let's visualize it on a quantile plot. 
+The test has a p-value of .9 so I can't reject the null hypothesis, which says the distributions are equal. 
 
-Lastly, let's check for homoscedasticity.
+The takeaway then is sentiment does not have statistical significance in price difference distributions or more correctly, I can't reject the hypothesis that the distributions are the same.
 
 
-Let's see if there's correlation between a few categorical variables using Chi squared test of indepedence
+
+Let's see if there's correlation between a few categorical variables using Chi squared test of indepedence.
 
 **Improvements**
 

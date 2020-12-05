@@ -5,7 +5,7 @@ tags: [bert, jekyll, blog, stocks]
 image: '/images/posts/pexels-pineapple-supply-co-139259.jpg'
 ---
 
-Many machine learning models rely on Baye's rule. It's a formula for calculating the condtional probability ie. the probability of an event if a second event has occured. The crux of the theorem provides a way to update the probability of an event given new evidence.
+Many machine learning models rely on Baye's rule. It's a formula for calculating the conditional probability ie. the probability of an event if a second event has occurred. The crux of the theorem provides a way to update the probability of an event given new evidence.
 
 ![bayes](/images/posts/bayes.png)
 
@@ -17,9 +17,9 @@ It's easy to understand the derivation.
 
 ![joint_derivation](/images/posts/joint_derivation.png)
 
-Let's say we have two indepedent and mutually exclusive events A and B.
+Let's say we have two independent and mutually exclusive events A and B.
 
-P(A) is the probabity of event A.
+P(A) is the probability of event A.
 
 P(B) is the probability of event B.
 
@@ -31,8 +31,8 @@ And I'm going to add a trick here. I'm adding the count of every event A in both
 
 ![bayes_derivation](/images/posts/bayes_derivation.png)
 
-Then, the joint probabilities are equal because A and B are mutually independent, so if I combine the two equations. Voila, I get the Baye's rule. 
-
+Then, the joint probabilities are equal because A and B are mutually independent, so if I combine the two equations. Voila, I get the Baye's rule.
+ 
 
 
 ---

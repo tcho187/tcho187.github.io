@@ -38,3 +38,14 @@ We can see that the optimal solutions are a line and not one point. Therefore an
 When the mean of the residuals is 0, we can prove that the OLS estimator is unbiased. That is, the expected value of the estimated beta parameters using the OLS estimator is the beta parameters of the model.
 
 ![mean_residual](/images/posts/ols/mean_residual.png)
+
+
+### Assumption 3
+
+> Homoscedasticity of residuals or equal variance
+
+When the variance of the residual is not consistent i.e. a horizontal line on a fitted values vs. residuals plot, we will lose confidence in our inference. The covariance matrix is used to calculate predictions so our prediction intervals will be biased.
+
+When the variance is constant, then we can see that the expected value of the variance of the residuals will equal to a constant standard error. Thus we have unbiased and consistent estimates of the variance to use for inference.
+
+![variance_residuals](/images/posts/ols/var_residual.png)

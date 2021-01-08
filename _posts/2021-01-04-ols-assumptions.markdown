@@ -49,3 +49,12 @@ When the variance of the residual is not consistent i.e. a horizontal line on a 
 When the variance is constant, then we can see that the expected value of the variance of the residuals will equal to a constant standard error. Thus we have unbiased and consistent estimates of the variance to use for inference.
 
 ![variance_residuals](/images/posts/ols/var_residual.png)
+
+
+### Assumption 4
+
+> No autocorrelation
+
+Autocorrelation and heteroscedasticity often go together because they affect the consistency of the variance of beta parameter estimates. In the case of autocorrelation, we go back to the expected value of residual x residual transpose. We multiply a correlation coefficient to the standard error, and since the coefficient is a fraction between -1 and 1 (positive really since we rarely see negative correlation), the off-diagonal of the correlation coefficient times the standard error skews the covariance matrix. Thus, we will underestimate the standard error.
+
+![auto_residual](/images/posts/ols/auto_residual.png)

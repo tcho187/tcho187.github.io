@@ -2,7 +2,7 @@
 layout: post
 title: Metrics
 tags: [bert, jekyll, blog, stocks]
-image: '/images/posts/pexels-pineapple-supply-co-139259.jpg'
+image: '/images/posts/pexels-brett-sayles.jpg'
 ---
 
 # Accuracy

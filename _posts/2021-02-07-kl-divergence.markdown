@@ -17,7 +17,7 @@ OK
 
 So, that's entropy. I didn't even get into what KL divergence is. At this point, we have a way of quantifying the probability distribution. KL divergence is the difference between two probability distributions. Rather, it's how much information is lost if we choose distribution b as a proxy for distribution a. 
 
-![kl divergence](/images/posts/kl_dvergence.svg)
+![kl divergence](/images/posts/kl_divergence.svg)
 
 
 Log of (P/Q) comes from the log property log(P) - log(Q).

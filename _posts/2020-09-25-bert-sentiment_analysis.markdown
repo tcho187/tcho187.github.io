@@ -2,6 +2,7 @@
 layout: post
 title: Hype vs. Fundamental - Can sentiment drive stock prices?
 tags: [bert, jekyll, blog, stocks]
+featured: true
 image: '/images/posts/pexels-marius-mann.jpg'
 ---
 

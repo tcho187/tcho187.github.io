@@ -1,0 +1,71 @@
+---
+layout: post
+title: Buy Till You Die Model
+tags: [frontpage, jekyll, blog]
+image: '/images/posts/7.jpg'
+---
+
+
+Churn prediction is difficult in a non-contractual setting. Users can
+stop at any point in time and without notice.
+
+Buy Till You Die Models are a family of models that aim to
+model customer buying behavior as a series of distributions. The models
+help quantify the lifetime value of a customer by assessing the
+expected number of his future transactions and his probability
+of being alive at any point in time.
+
+Let's talk about 1 type
+
+## The BG/NBD Model
+
+
+The Beta Geometric/Negative Binomial Distribution was introduced in
+2004 by Fader
+
+
+Let's treat each customer buying behavior as a coin tossing game.
+
+Each customer gets 2 coins.
+1. A buy coin that controls the probability of a customer to purchase
+2. A die coin that controls the probability of a customer to churn
+
+Model assumptions:
+
+1. The number of transactions follows a Poisson distribution with transaction rate λ
+2. Heterogeneity in transaction rates λ among customers follows a Gamma distribution
+3. A customer churns with probability p according to a Geometric distribution
+4. Heterogeneity in probability p follows a Beta distribution
+
+
+Model outputs
+
+P(X(t) = x | λ, p)- the probability of observing x transactions in a time period of length t
+E(X(t) | λ, p)- the expected number of transactions in a time period of length t
+P(τ>t) - the probability of a customer becoming inactive at period τ
+
+
+
+
+## Data
+
+user_id
+order_id
+order_date
+order_value
+
+### Transformations
+
+Recency (derived from tₓ): the age of the customer at the moment of his last purchase, which is equal to the duration between a customer’s first purchase and their last purchase.
+
+Frequency (x): the number of periods in which the customer has made a repeat purchase.
+
+Age of the customer (T): the age of the customer at the end of the period under study, which is equal to the duration between a customer’s first purchase and the last day in the dataset.
+
+
+
+
+## References
+https://towardsdatascience.com/predicting-customer-lifetime-value-with-buy-til-you-die-probabilistic-models-in-python-f5cac78758d9
+
+https://towardsdatascience.com/customer-behavior-modeling-buy-til-you-die-models-6f9580e38cf4

@@ -244,3 +244,50 @@ on t1.tweet_date >= t2.tweet_date - interval 7 day
 and t1.user_id = t2.user_id
 ```
 
+#Question 11
+
+Assume you are given the table below on transactiosn made by users. Write
+a query to obtain the third transaction of every user.
+
+
+transactions
+user_id
+spend
+transaction_date
+
+```
+select user_id,spend,transaction_id from
+(
+select t.*, row_number() over (partition by user_id order by transaction_date) as rk
+from transactions t
+) t1
+where rk=3
+```
+
+#Question 12
+
+Assume you are given the table below containing information on customer spend on
+products belonging to various categories. Identify the top three highest-grossing items
+within each category in 2020.
+
+product_spend
+transaction_id
+category_id
+product_id
+user_id
+spend
+transaction_date
+
+```
+select category_id,product_id, rk
+from (
+select category_id, product_id, row_number() over (partition by category_id, product_id order by sum(spend) desc) as rk
+from product_spend
+where transaction_date >= '2020-01-01' and transaction_date < '2020-12-31'
+) t1
+where rk <=3
+order by 1,3
+```
+
+
+

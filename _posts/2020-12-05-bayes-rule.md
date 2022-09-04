@@ -204,3 +204,5 @@ class GaussianNB(object):
 
 ```
 
+https://kenzotakahashi.github.io/naive-bayes-from-scratch-in-python.html
+https://nlp.stanford.edu/IR-book/html/htmledition/naive-bayes-text-classification-1.html

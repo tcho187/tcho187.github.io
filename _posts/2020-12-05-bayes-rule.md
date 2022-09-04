@@ -32,7 +32,175 @@ And I'm going to add a trick here. I'm adding the count of every event A in both
 ![bayes_derivation](/images/posts/bayes_derivation.png)
 
 Then, the joint probabilities are equal because A and B are mutually independent, so if I combine the two equations. Voila, I get the Baye's rule.
- 
+
 
 
 ---
+
+
+## Naive Bayes from scratch
+
+
+Let's try to code na naive bayes classifier from scratch in Python.
+
+Let's first start with a Multinomial Naive Bayes.
+
+Let's first create the Multinomial class.
+
+```
+class MultinomialNB(object):
+  def __init__(self, alpha=1.0):
+    self.alpha=alpha
+
+```
+
+
+We need to create the fit method, which will create our
+prior and likelihood.
+
+The general framework is:
+1. Get the number of samples
+2. Create an array of arrays with records in each class.
+3. Create an array of priors. Length of the array in 2 is divided by 1
+4. Create an array of likelihood numerator. Take the sum of each word.
+5. Create an array of likelihood denominator. Take the sum of the count in each row.
+6. Create an array of likelihood. Take 4 divided by 5.
+
+
+```
+def fit(X,y):
+  count_samples = X.shape[0]
+  records_by_class = [[x for x,label in zip(X,y) if label == target] for target in np.unique(y)]
+  self.priors_ = [np.log(len(records)/count_samples) for records in records_by_class]
+  word_sum = np.array([np.array(records).sum(axis=0) for records in records_by_class]) + self.alpha
+  count_sum = count.sum(axis=1)
+  self.likelihood_ = np.log(word_sum/count_sum[np.newaxis].T)
+```
+
+
+Now, let's predict. The prediction is straightforward.
+The general framework
+1. Multiply the record with the likelihood and add the prior
+
+```
+def predict_log_proba(self,X):
+  return [(self.likelihood_ * x).sum(axis=1) + self.prior_ for x in X]
+```
+
+We can also just output the highest probability.
+
+```
+def predict(self,X):
+  return np.argmax(self.predict_log_proba(X), axis=1)
+```
+
+Here's the complete code.
+
+```
+class MultinomialNB(object):
+  def __init__(self, alpha=1.0):
+    self.alpha=alpha
+
+def fit(X,y):
+  count_samples = X.shape[0]
+  records_by_class = [[x for x,label in zip(X,y) if label == target] for target in np.unique(y)]
+  self.priors_ = [np.log(len(records)/count_samples) for records in records_by_class]
+  word_sum = np.array([np.array(records).sum(axis=0) for records in records_by_class]) + self.alpha
+  count_sum = count.sum(axis=1)
+  self.likelihood_ = np.log(word_sum/count_sum[np.newaxis].T)
+
+
+def predict_log_proba(self,X):
+  return [(self.likelihood_ * x).sum(axis=1) + self.prior_ for x in X]
+
+def predict(self,X):
+  return np.argmax(self.predict_log_proba(X), axis=1)
+
+```
+
+
+
+### Bernoulli NB
+
+It's identical to multinomial except rather than the count of words
+we look at the existence of the word.
+
+```
+class BernoulliNB(object):
+	def __init__(self, alpha):
+		self.alpha = alpha
+
+	def fit(self,X):
+		count_samples = X.shape[0]
+		records_by_class = [[x for x,label in zip(X,y) if label == target] for target in np.unique(y)]
+		self.class_log_prior_ = [np.log(len(records)/count_samples) for records in records_by_class]
+		count = np.array([np.array(i).sum(axis=0) for i in records_by_class]) + self.alpha
+		smoothing = 2 * self.alpha
+		n_doc = np.array([len(i) + smoothing for i in records_by_class])
+		self.feature_prob_ = count / n_doc[np.newaxis].T
+		return self
+
+	def predict_log_proba(self, X):
+		return [(np.log(self.feature_prob_) * x + np.log(1 - self.feature_prob_) * np.abs(x - 1)).sum(axis=1) + self.class_log_prior_ for x in X]
+
+```
+
+
+Posterior is likelihood * x + (1-likelihood) * (x-1)
+
+so the posterior is likelihood times the x-record + 1-likelihood times absolute value of x-1. so
+if the word exists then x-1 is 0 so 1-likelihood is 0.
+
+
+We should also include the binarize function
+```
+class BernoulliNB(object):
+	def __init__(self, alpha=1.0, binarize=0.0):
+		self.alpha = alpha
+		self.binarize = binarize
+
+	def fit(self,X):
+		X = self._binarize_X(X)
+		count_samples = X.shape[0]
+		records_by_class = [[x for x,label in zip(X,y) if label == target] for target in np.unique(y)]
+		self.class_log_prior_ = [np.log(len(records)/count_samples) for records in records_by_class]
+		count = np.array([np.array(i).sum(axis=0) for i in records_by_class]) + self.alpha
+		smoothing = 2 * self.alpha
+		n_doc = np.array([len(i) + smoothing for i in records_by_class])
+		self.feature_prob_ = count / n_doc[np.newaxis].T
+		return self
+
+	def predict_log_proba(self, X):
+		X = self._binarize_X(X)
+		return [(np.log(self.feature_prob_) * x + np.log(1 - self.feature_prob_) * np.abs(x - 1)).sum(axis=1) + self.class_log_prior_ for x in X]
+```
+
+
+If the features are continuous and follow a normal distribution, the
+GaussianNB is appropriate.
+
+
+```
+class GaussianNB(object):
+	def __init__(self):
+		pass
+
+	def fit(self, X,y):
+		records_by_class = [[x for x, label in zip(x,y) if label == target] for target in np.unique(y)]
+		self.model = np.array([np.c_(np.mean(records),axis=0),np.std(records, axis=0)] for records in records_by_class)
+		return self
+	def _prob(self, x, mean, std):
+		exponent = np.exp(- ((x-mean)**2 / (2* std**2)))
+		return np.log(exponent / (np.sqrt(2*np.pi) * std))
+
+	def predict_log_proba_(self, X):
+		return [[sum(self._prob(i, *s) for s,i in zip(statistics, x)) for statistics in self.model] for x in X]
+
+	def predict(self, X):
+		return np.argmax(self.predict_log_proba_(X), axis=1)
+
+	def score(self, X, y):
+		return sum(self.predict(X)==y) / len(y)
+
+```
+

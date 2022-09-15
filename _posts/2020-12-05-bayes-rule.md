@@ -34,6 +34,7 @@ And I'm going to add a trick here. I'm adding the count of every event A in both
 Then, the joint probabilities are equal because A and B are mutually independent, so if I combine the two equations. Voila, I get the Baye's rule.
 
 
+## Naive Bayes
 
 ---
 

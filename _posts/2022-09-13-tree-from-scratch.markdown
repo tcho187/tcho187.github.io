@@ -192,3 +192,72 @@ class DecisionTree:
       return self._traverse_tree(x, node.left)
     return self._traverse(x, node.right)
 ```
+
+So now that I built 1 DecisionTree. Now let's a collection of trees
+to build Random Forest.
+
+Combine multiple trees. Each tree gets a random subset of the data.
+
+Avoids overfitting.
+
+
+# Steps
+
+1. Import DecisionTree class
+2. Create a RandomForest class and
+3. The init method has number of trees, same features as decision tree so min_sample_split, max_depth, and number of features
+4. Also set self.tree to an empty list
+5. Create a fit method with X and y
+6. Loop through range of number of trees
+7. Create a DecisionTree instance and set the parameters to self
+8. Then let's sample the data so create a method called bootstrap
+9. The bootstrap method takes in X and y as the input and
+10. we can use np.random.choice of 0 to n_samples and size is n_samples and replace is True
+11. Then we return the X_sample and y_sample
+12. ok so we then fit the sample using the fit method
+13. Then append the tree to the self.trees variable
+14. Now that's fit. Let's look at predict
+15. Create a predict method with X as the input
+16. loop through self.trees and call the predict method of each DecisionTree and put that into an np array
+17. Then we need to swap the predictions so use np.swapaxes
+18. Then for each set of trees call the most_common_labels method and pick a winner
+19. Return the array of winning predictions
+```
+import numpy as np
+from collection import Counter
+from decision_tree import DecisionTree
+
+def bootstrap_sample(X, y):
+  n_samples = X.shape[0]
+  idxs = np.random.choice(n_samples, size=n_samples, replace=True)# make a random choice between 0 to n_samples and size is n_samples
+  return X[idxs], y[idxs]
+
+def most_common_label(y):
+  counter = Counter(y)
+  most_common = counter.most_common(1)[0][0]
+  return most_common
+class RandomForest:
+  def __init__(self, n_trees=100, min_sample_split=2, max_depth = 100, n_feats=None):
+    self.n_trees = n_trees
+    self.min_sample_split = min_sample_split
+    self.max_depth = max_depth
+    self.n_feats = n_feats
+    self.trees = []
+
+
+  def fit(self, X, y):
+    self.trees = []
+    for _ in range(self.n_trees):
+      tree = DecisionTree(min_sample_split=self.min_sample_split, max_depth=self.max_depth, n_feats=self.n_feats)
+      X_sample, y_sample = boostrap_sample(X,y)
+      tree.fit(X_sample, y_sample)
+      self.trees.append(tree)
+  def predict(self, X):
+    tree_predictions = np.array([tree.predict(X) for tree in self.trees])
+    # [111 000 111]
+    # [101 101 101]
+    tree_predictions = np.swapaxes(tree_predictions, 0, 1)
+    y_predictions = [most_common_label(tree_prediction) for tree_prediction in tree_predictions]
+    return np.array(y_predictions)
+
+```

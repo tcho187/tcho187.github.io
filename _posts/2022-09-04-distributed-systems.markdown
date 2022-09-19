@@ -359,3 +359,166 @@ If the application can verify that all writes for a given record go via the same
 Last-write wins
 
 
+## Key value Store
+
+### Ensure scalability and replication
+
+#### Add scalability
+
+
+So we store key value data in storage nodes. What happens when we need to add or remove storage nodes?
+It means we need to partition data over the nodes to distribute the load across all nodes.
+
+The flow is as follows
+
+1. Request comes in
+2. We hash the request
+3. We find the remainder of the hash by the number of available nodes
+4. The remainder is the node value
+5. We send the request to that node
+
+Solutions
+
+### Consistent Hashing
+
+Imagine a ring of hashes from 0 to n-1 hashes. We take a node ID, hash it, and map it to a ring.
+
+Each request is completed by the next node that it finds by moving in the clockwise direction in the ring.
+
+
+When a new node is added, the immediate next node shares it's data.
+
+Primary benefit is as node join and leaves, it ensures minimal number of keys need to move.
+
+
+In practice, the request load is not balanced. The node that receives disproportionately large share of data storage and retrieval requests.
+These are referred to as hotspots.
+
+Solution to the hotspot
+
+Use virtual nodes
+
+We'll use virtual ndoes to ensure a distributed load across all nodes. We'll apply multiple hash functions onto the same key.
+
+Basically 3 hashes will equal to 3 positions in the ring for each node.
+So the load of requests is more uniform. If the node has more hardware capacity, then we can add more virtual nodes.
+
+Advantages
+
+1. If a node fails or in maintenance, the workload is uniformly distributed over other nodes.
+2. For each new accessibly node, the other nodes receive nearly equal nodes when it comes back online or is added to the system.
+3. It's up to each node to decide how many virtual nodes it's responsible for.
+
+### Data Replication
+
+#### Primary secondary approach
+
+1 of the storage areas is primary and the others are secondary
+
+* The primary serves write requests
+* The secondary serves read requests
+* After writing, there's a lag for replication
+* If the primary goes down, we can't write into storage
+
+#### Peer to peer approach
+
+All storage areas are primary. In practice, 3 or 5 is common. We'll replicate the data on multiple hosts
+to achieve durability and high availability. Each data item will be replicated at n hosts.
+N is a parameter configured per instance of the key-value store.
+
+
+We'll call a node the coordinator. It's responsible for replicating the keys to n -1  successors on the ring.
+These lists of successor virtual nodes are called preference lists.
+To avoid putting replicas on the same physical nodes, the preference list can skip
+those virtual nodes whose physical node is already on the list.
+
+### Versioning Data and Achieving Configurability
+
+We need causality to maintain by using vector clocks. Vector clock is
+a list of (node, counter) pairs. There's a single vector clock for every version
+of an object. If two objects have different vector clocks, we can tell if they are
+causally related or not.
+
+Example
+
+1. Write handled by A E1([A,1])
+2. Write handled by A E2([A,2])
+3. Network partition
+4. Write handled by B E3([A,2], [B,1])
+5. Write handled by C E4([A,2], [C,1])
+6. Network repaired
+7. Conflict so context is ([A,3], [B,1], [C,1])
+8. Write handled by A E5([A,4])
+
+Vector clock limitations
+
+Size of the vector may grow a lot. It's unlikely to happen in practice
+because writes are handled by one of the top n nodes in a preference list.
+
+But we can limit the size with a clock truncation strategy.
+
+Store a timestamp with each set and vector pairs are purged when the number
+exceeds a predetermined threshold.
+
+### Get and Put
+
+2 ways for a client to select a node
+1. We route the request to a generic load balancer
+2. We use a partition aware client library that routes requests directly to the appropriate coordinator nodes.
+
+Take r and w
+r is the minimum number of nodes that need to be part of a successful read operation.
+w is the minimum number of nodes that need to be part of a successful write operation.
+
+We need r and w to be at least one node is common between them.
+
+r + w > n
+
+larger value of r we focus on availability and compromise latency.
+
+The get operation is decided by the slowest of the r replicas
+
+The coordinator produces the vector clock for the new version ands writes
+the new version locally upon receiving a put request. The coordinator sends
+n highest ranking nodes with the updated version. We consider a successful write request
+if at least w-1 nodes respond.
+
+Requests for a get operation are made to the n highest ranking reachable nodes. They wait for r answers.
+Coordinators return all dataset versions that they think are unrelated.
+The conflicting versions are merged, and the resulting key's value is rewritten to override
+the previous version.
+
+
+
+### Enable Fault Tolerance and Failure Detection
+
+
+#### Temporary Failures
+
+Hinted Handoff - The first n healthy nodes from the preference list
+handle all read and write operations. If the intended node is unavailable, then the next node in the list is sent the request.
+After processing the request, the second node includes a hint as to which node was the intended receiver.
+Once the original node is back, the second node sends back the request information, so it can update its data.
+
+
+### permanent Failure
+
+Merkle tree TBD
+
+
+## CDN
+
+SKIP
+
+## Sequencer
+
+
+SKIP
+
+## Distributed Monitoring
+
+1. Server side errors - HTTP response codes
+2. Client-side errors - 400 HTTP response codes
+
+
+

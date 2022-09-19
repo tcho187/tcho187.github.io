@@ -219,3 +219,143 @@ MTTR as a metric
 system's ability to execute persistently even if one or more of its
 components fail.
 
+
+## Caching
+
+Placing a cache directly on a request layer node enables the local storage of response data.
+
+If we have multiple nodes then it's possible to have cache in each node, but if the load balancer
+distrbutes requests across the nodes, then same request will go to different nodes, thus increasing
+cache misses.
+
+
+### Content Delivery Network (CDN)
+
+cache good for sites with static media.
+
+If the system isn't big enough yet, create a separate subdomain static.yourservice.com using
+a lightweight HTTP server like Nginx and cut over the DNS from your servers to a CDN later.
+
+
+### Cache Invalidation
+
+Cache should match the database so whenever data in the database changes, cache should also change.
+
+Write-through cache - data is written into the cache and the database simultaneously.
+minimizes the risk of data loss but has higher latency
+
+Write-around cache - data is written directly to the permanent storage bypassing the cache.
+disadvantage is read request for recently written data will create a "cache miss" and must be
+read from the slower back-end storage and experience higher latency.
+
+
+Write-back cache -data is written only to the cache. The write to the permannent storage is done
+after specified intervals or under certain conditions. results in low latency and high throughput
+for write-intensive applications. comes with the risk of data loss in case of crash or other
+adverse event because the only copy of the written data is the cache.
+
+
+### Cache eviction policies
+1. First In First Out - the cache evicts the first block accessed first without any regards to how often or how many times it was accessed before.
+2. Last In First Out - the cache evicts the block accessed most recently first without any regard to how often or how many times it was accessed before.
+3. Least Recently Used - discards the least recently used items first.
+4. Most Recently Used - discards the most recently used items first.
+5. Least Frequently Used - discards the least frequently used items first.
+6. Most Frequently Used - discards the most frequently used items first.
+7. Random replacement - Randomly selects a candidate item and discards it to make space when necessary
+
+
+### Databases
+
+File storage is first thought
+
+Limitations of file storage
+1. We can't offer concurrent management to separate users accessing the storage files from different locations
+2. We can't grant different access rights to different users.
+3. System can't scale.
+4. Search content for different users in a short time is difficult.
+
+Advantages of database
+
+1. Managing large data
+2. Data consistency (accurate data)
+3. Easy updation
+4. Security
+5. Data Integrity
+6. Availability
+7. Scalability
+
+
+### Relational DB
+Tables have keys
+
+Instances are rows
+
+Attributes of each instance are columns
+
+ACID
+
+### Data Replication
+
+We need these characteristics from our data store
+
+1. Availability under faults (failure of some disk, nodes, and network and power outages)
+2. Scalability (with increasing reads, writes, and other operations)
+3. Performance (low latency and high throughput for the clients)
+
+Replication is key to all 3
+
+Questions to ask for relplication
+1. How do we keep multiple copies of data consistent
+2. How do we deal with failed replica node
+3. Should we replicate synchronously or asynchronously
+4. How do we deal with replication lag
+5. How do we handle concurrent write
+6. What consistency model needs to be exposed to the end programmer
+
+#### Data replication models
+
+Single leader or primary-secondary replication
+
+Multi-leader replication
+
+Peer to peer or leadership replication
+
+
+Primary-secondary
+
+is good for read heavy. 1 node is responsible for processing any writes to data. It also sends all the writes to the secondary nodes.
+
+Read resilient because secondary nodes can handle read requests in case of primary node failures.
+
+Replication with this approach and asynchronous replication comes with inconsistencies.
+
+Clients reading can see inconsistent data.
+
+There's 3 methods for primary-secondary
+
+1. Statement-based replication
+   1. all statements are saved like insert, delete, update and sent to secondary to perform. Bad because of nondeterministic functions like now()
+   2. dependent writes may come in the wrong order
+2. Write-ahead log (WAL) replication
+   1. The primary node saves the query in a log file before executing. The logs are then sent to the secondary node. Used in PostreSQL and Oracle.
+3. Logical (row-based) log replication
+   1. All secondary nodes replicate the actual data changes.
+
+
+Multi-leader
+
+They're multiple primary nodes that process the writes and send them to all other primary and secondary nodes to replicate.
+
+Works great for offline
+
+Since all the primary nodes concurrently deal with the write requests, they may modify the same data
+which can create the conflict between them.
+
+How to avoid conflicts
+
+If the application can verify that all writes for a given record go via the same leader then can be avoided.
+
+Last-write wins
+
+

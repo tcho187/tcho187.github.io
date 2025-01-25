@@ -1,0 +1,13 @@
+---
+layout: post
+title: Books
+tags: [personal]
+image: '/images/posts/pexels-pineapple-supply-co-139259.jpg'
+---
+
+Here's space for all the books that I hope to define me.
+
+### An Introduction to Statistical Learning
+[Link](https://www.statlearning.com/)
+
+This book dives deep into everything that is regression.

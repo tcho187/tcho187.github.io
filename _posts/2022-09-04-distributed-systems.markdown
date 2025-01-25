@@ -521,4 +521,26 @@ SKIP
 2. Client-side errors - 400 HTTP response codes
 
 
+## Blob
+
+Blob store is a storage solution for unstructured data.
+
+Mostly, it’s used by applications with a particular business requirement called write once, read many (WORM)
+
+
+### Functional requirements
+
+Create a container
+
+
+
+
+# Design Problems
+
+Let's use RESHADED
+Requirements, Estimation, Storage Schema, High level design, API design, Detailed design, Evaluation, Distinctive component/feature
+
+
+
+
 

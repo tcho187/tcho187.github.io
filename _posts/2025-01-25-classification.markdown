@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Classification
-tags: [log probability, binary logistic regression, parameter learning, Negative Log Loss]
+tags: [log probability, binary logistic regression, parameter learning, Negative Log Loss, binary cross entropy]
 image: '/images/posts/pexels-brett-sayles.jpg'
 ---
 
@@ -68,3 +68,17 @@ going from a very high number down to zero loss. We call this Negative Log Loss.
 7. This is the loss function.
 
 ![parameter-learning.png](/images/posts/parameter-learning.png)
+
+### Binary Cross Entropy
+
+In the context of neural network
+Before we were sending the scores y-hat and target y; {+1,-1}  before sending it to sigmoid and then log.
+Now we need to change the target to y={+1, 0} and that means we need to use binary cross entropy.
+
+loss(y-hat, y) = y * log(p(y-hat)) + (1-y) * log(1-p(y-hat))
+
+Basically, we're selecting which way we need to look at the outputs of our neural network. Whether to look at the probability
+or flip flop and use 1-probability.
+
+![binary-cross-entropy.png](/images/post/Fbinary-cross-entropy.png)
+

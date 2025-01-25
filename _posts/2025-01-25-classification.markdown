@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Classification
-tags: [log probability, binary logistic regression, parameter learning, Negative Log Loss, binary cross entropy]
+title: Logg Loss aka Cross Entropy with sigmoid aka logistic or softmax
+tags: [log probability, binary logistic regression, parameter learning, Negative Log Loss, binary cross entropy, multinomial logistic classification, softmax]
 image: '/images/posts/pexels-brett-sayles.jpg'
 ---
 
@@ -82,3 +82,25 @@ or flip flop and use 1-probability.
 
 ![binary-cross-entropy.png](/images/post/Fbinary-cross-entropy.png)
 
+### Softmax
+
+Previously we used sigmoid for one comparison.
+
+We need softmax for more than 2 categories.
+
+Softmax takes a vector of numbers and makes one close to 1 and the rest close to 0.
+Pretend that softmax is a probability distribution.
+
+1. Take a vector of scores
+2. We exponential every number
+3. We normalize. Take the sum of each e^number
+4. Take the log. Remember we want numbers that are close to 1 because then log of number becomes close to 0
+
+Exponentiation makes big numbers really big and small numbers really small
+
+![softmax.png](/images/posts/softmax.png)
+
+
+### Parameter Learning with softmax
+
+TODO
